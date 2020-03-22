@@ -1,3 +1,5 @@
+package 剑指Offer练习;
+
 import java.util.Stack;
 
 public class StackToQueue {

@@ -37,6 +37,24 @@ class MyLinkedList {
             ;
         curNode.next = newNode;
     }
+
+    /* public Node zipList(Node list1, Node list2) {
+        // Consider case that there is one list empty
+        if (list1 == null)
+            return list2;
+        if (list2 == null)
+            return list1;
+        
+        Node head = null;
+        if (list1.val < list2.val) {
+            head = list1;
+            head.next = Merge(list1.next, list2);
+        } else {
+            head = list2;
+            head.next = Merge(list1, list2.next);
+        }
+        return head;
+    } */
     
     /**
      * Delete all occurrence in the list
@@ -81,6 +99,26 @@ class MyLinkedList {
             curNode = curNode.next;
         }
     }
+
+    // IMPORTANCE!!!
+    /* Summary: after consider none&one node case, handle >= 2 nodes
+        use three reference, store post first, then let cur points to prev
+        then move forward prev and cur
+
+        inside loop, do assign post...
+    */
+    public Node ReverseList(Node head) {
+        if (head == null || head.next == null) // Consider no elem, one elem case
+            return head;
+        Node prev = null, cur = head, post = null; // Need three to record
+        while(cur != null) { // In last iteration, cur will go to null, as post is at null
+            post = cur.next; // Let post store next address, as cur's next will be set, cur->post will disconnect
+            cur.next = prev; // turn prev cur->post to prev<-cur post
+            prev = cur; // Forward prev
+            cur = post; // forward cur
+        }
+        return prev;
+    }
     
     /**
      * Print list to console
@@ -93,6 +131,31 @@ class MyLinkedList {
             System.out.print(curNode.val + "->");
         }
         System.out.print(curNode.val + "\n");
+    }
+
+    public static boolean detectLoop(Node head) {
+        if (head == null)
+            return false;
+        Node slow = head;
+        Node fast = head;
+        // Analyse this exit condition
+        // If no loop
+        //  odd numbers of nodes, fast will stop at tail node
+        //  even number, will stop just at null right after tail node
+        while (fast != null && fast.next != null && slow != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow)
+                return true;
+        }
+        return false;
+    }
+
+    public void makeLoop() {
+        Node cur = head;
+        for (; cur.next != null; cur = cur.next)
+            ;
+        cur.next = head;
     }
 
     public static void main(String[] args) {
@@ -108,9 +171,13 @@ class MyLinkedList {
         }
         // Print out the list
         myList.showList();
-        System.out.println("After delete:");
-        myList.delete(1);
+        System.out.println("After revserse:");
+        myList.head = myList.ReverseList(myList.head);
         myList.showList();
+        
+        myList.makeLoop();
+
+        System.out.println(detectLoop(myList.head));
         sc.close();
     }
 }

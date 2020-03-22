@@ -1,3 +1,5 @@
+package 剑指Offer练习;
+
 import java.util.ArrayList; // 原题使用ArrayList
 import java.util.Stack; // 使用Stack的解法需要import
 
