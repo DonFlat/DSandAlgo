@@ -14,7 +14,7 @@ class Hash<K, V> implements HashI<K, V> {
             return ((Comparable<K>) h.key).compareTo(this.key);
         }
     }
-
+    // I came here only for test git
     LinkedList<HashElement<K, V>>[] harray;
     int tableSize;
     double maxLoadFactor;
